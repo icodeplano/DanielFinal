@@ -66,3 +66,7 @@ class Vector2D:
     def to_polar(self):
         """Return the vector's components in polar coordinates."""
         return self.__abs__(), math.atan2(self.y, self.x)
+
+    def unit(self):
+        """returns a new Vector2 unit vector in the\ndirection of given Vector2 object"""
+        return Vector2D(self.x/abs(self), self.y/abs(self))

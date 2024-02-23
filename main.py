@@ -3,6 +3,7 @@ from constants import SCREEN_SIZE, BACKGROUND_COLOR, FPS
 from utility import render_entities
 from objects import Player, Zombie
 from vector2d import Vector2D
+import math
 
 
 def main():
@@ -36,6 +37,12 @@ def main():
 
         if keys[pygame.K_d]:
             player.velocity += Vector2D(player.speed * dt, 0)
+
+        mouse_pos = pygame.mouse.get_pos()
+        mouse_pos = Vector2D(mouse_pos[0], mouse_pos[1])
+        direction = mouse_pos - player.position
+        mouse_direction = direction.unit()
+        player.angle = math.radians(math.atan2(mouse_direction.x, mouse_direction.y))
 
         screen.fill(BACKGROUND_COLOR)
         render_entities(screen, objects, dt)

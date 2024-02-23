@@ -35,7 +35,7 @@ class Entity(Image):
     def update(self, dt):
         self.velocity *= 1 - self.drag * dt
         self.position += self.velocity * dt
-        print(self.velocity)
+        print(self.angle)
 
     def change_health(self, by):
         self._health = clamp(self._health + by, 0, self._max_health)
