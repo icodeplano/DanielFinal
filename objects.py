@@ -1,33 +1,51 @@
+from vector2d import Vector2D
 import pygame
-import pymunk
 
-object_list = []
+player_img_prev = pygame.image.load("assets/player.png")
+zombie_img = pygame.image.load("assets/zombie.png")
 
-
-class Object:
-    def __init__(self, position):
-        self.body = pymunk.Body()
-        self.body.position = position
+player_img = pygame.transform.scale_by(player_img_prev, 0.5)
 
 
-class ColoredObject(Object):
-    def __init__(self, position, color):
-        super().__init__(position)
-        self.color = color
+def clamp(n, min_num, max_num):
+    if n < min_num:
+        return min_num
+    elif n > max_num:
+        return max_num
+    else:
+        return n
 
 
-class Circle(ColoredObject):
-    def __init__(self, space, color=(0, 0, 0), radius=25, position=(0, 0), mass=10, friction=1):
-        super().__init__(position, color)
-        self.shape = pymunk.Circle(self.body, radius)
-        self.shape.mass = mass
-        self.shape.friction = friction
-        space.add(self.body, self.shape)
-        object_list.append(self)
+class Image:
+    def __init__(self, image):
+        self.image = image
+        self.position = Vector2D(0, 0)
+        self.angle = 0
 
 
-def render_objects(screen):
-    for index, object_class in enumerate(object_list):
-        if isinstance(object_class, Circle):
-            position = (object_class.body.position.x, object_class.body.position.y)
-            py
+class Entity(Image):
+    def __init__(self, image, speed, max_health):
+        super().__init__(image)
+        self.velocity = Vector2D(0, 0)
+        self.speed = speed
+        self.drag = 2
+        self._max_health = max_health
+        self._health = max_health
+
+    def update(self, dt):
+        self.velocity *= 1 - self.drag * dt
+        self.position += self.velocity * dt
+        print(self.velocity)
+
+    def change_health(self, by):
+        self._health = clamp(self._health + by, 0, self._max_health)
+
+
+class Player(Entity):
+    def __init__(self, speed, max_health=100):
+        super().__init__(player_img, speed, max_health)
+
+
+class Zombie(Entity):
+    def __init__(self, speed, max_health=100):
+        super().__init__(zombie_img, speed, max_health)
