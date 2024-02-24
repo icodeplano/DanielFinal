@@ -7,8 +7,8 @@ from pygame.math import Vector2
 import math
 
 zombie_spawn_cooldown = 3
-
 current_cooldown = 3
+
 
 def main():
     objects = []
