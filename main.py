@@ -58,7 +58,7 @@ def main():
 
         for _, zombie in enumerate(zombies):
             zombie.move_towards(player.position, dt)
-            #zombie.point_towards(player.position)
+            zombie.point_towards(player.position)
 
         mouse_pos = pygame.mouse.get_pos()
         mouse_pos = Vector2(mouse_pos[0], mouse_pos[1])

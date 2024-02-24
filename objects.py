@@ -1,4 +1,5 @@
 from pygame.math import Vector2
+import math
 import pygame
 
 player_img_prev = pygame.image.load("assets/player.png")
@@ -55,5 +56,8 @@ class Zombie(Entity):
         direction = (position - self.position).normalize()
         self.velocity += direction * self.speed * dt
 
-    def point_towards(self):
-        pass
+    def point_towards(self, position):
+        direction = position - self.position
+        mouse_direction = direction.normalize()
+        self.angle = math.degrees(math.atan2(mouse_direction.x, mouse_direction.y)) - 95
+
